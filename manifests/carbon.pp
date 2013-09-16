@@ -2,7 +2,7 @@
 class graphite::carbon(
     $cache_port       = 2003,
     $cache_enable_udp = false,
-    $cache_udp_port   = $cache_port,
+    $cache_udp_port   = 2003,
     
     $package             = 'carbon',
     $conf_dir            = '/etc/carbon',

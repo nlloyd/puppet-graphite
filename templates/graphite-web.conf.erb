@@ -3,17 +3,17 @@
 # Managed by Puppet
 # ************************************************
 
-Listen <%= port %>
-NameVirtualHost <%= vhost_name %>:<%= port %>
+Listen <%= @port %>
+NameVirtualHost <%= @vhost_name %>:<%= @port %>
 
 WSGISocketPrefix <%= scope.lookupvar("graphite::socket_path") %>/wsgi
 
-<VirtualHost <%= vhost_name %>:<%= port %>>
-    ServerName <%= srvname %>
-    DocumentRoot <%= docroot %>
+<VirtualHost <%= @vhost_name %>:<%= @port %>>
+    ServerName <%= @srvname %>
+    DocumentRoot <%= @docroot %>
 
-    ErrorLog <%= logroot %>/error.log
-    CustomLog <%= logroot %>/access.log combined
+    ErrorLog <%= @logroot %>/error.log
+    CustomLog <%= @logroot %>/access.log combined
 
     # I've found that an equal number of processes & threads tends
     # to show the best performance for Graphite (ymmv).
@@ -21,10 +21,10 @@ WSGISocketPrefix <%= scope.lookupvar("graphite::socket_path") %>/wsgi
     WSGIProcessGroup     graphite
     WSGIApplicationGroup %{GLOBAL}
     
-    WSGIImportScript     <%= docroot %>/graphite-web.wsgi process-group=graphite application-group=%{GLOBAL}
-    WSGIScriptAlias      / <%= docroot %>/graphite-web.wsgi
+    WSGIImportScript     <%= @docroot %>/graphite-web.wsgi process-group=graphite application-group=%{GLOBAL}
+    WSGIScriptAlias      / <%= @docroot %>/graphite-web.wsgi
 
-    Alias /content/ <%= docroot %>/content/
+    Alias /content/ <%= @docroot %>/content/
     <Location "/content/">
         SetHandler None
     </Location>

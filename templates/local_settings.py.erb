@@ -15,9 +15,9 @@ DEBUG = True
 
 ## since we're using a custom path for the whisper files, that must be updated
 ## to match carbon.conf
-WHISPER_DIR = '<%= whisper_data_dir %>'
+WHISPER_DIR = '<%= @whisper_data_dir %>'
 
-LOG_DIR = '<%= logroot %>'
+LOG_DIR = '<%= @logroot %>'
 
-DATABASE_NAME = '<%= lib_dir %>/graphite.db'
-INDEX_FILE = '<%= lib_dir %>/index'
+DATABASE_NAME = '<%= @lib_dir %>/graphite.db'
+INDEX_FILE = '<%= @lib_dir %>/index'

@@ -1,5 +1,5 @@
 import os, sys
-sys.path.append('<%= docroot %>')
+sys.path.append('<%= @docroot %>')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'graphite.settings'
 
 import django.core.handlers.wsgi
