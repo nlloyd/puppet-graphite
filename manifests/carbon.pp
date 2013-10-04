@@ -12,8 +12,6 @@ class graphite::carbon(
 ) {
     require graphite
 
-    $whisper_data_dir = $graphite::whisper_data_dir
-
     package {$package : }
     
     File {
@@ -22,12 +20,6 @@ class graphite::carbon(
     }
     
     if $provide_init_script {
-        # file {'/etc/init.d/carbon-cache':
-        #     source  => 'puppet:///modules/graphite/ubuntu-init-script',
-        #     mode    => '0755',
-        #     require => Package[$package],
-        #     before  => Service['carbon-cache'],
-        # }
         file {'/etc/init/carbon-cache.conf':
             content => template('graphite/upstart-carbon.conf.erb'),
             owner   => 'root',
@@ -46,12 +38,19 @@ class graphite::carbon(
     
     file {[
         $conf_dir,
-        $storage_dir,
         $log_dir,
-        $whisper_data_dir,
     ]:
         ensure  => directory,
         recurse => true,
+    }
+    
+    ## these are too big and deep to be recursed into without killing Puppet
+    ## performance (and possibly Puppet altogether)
+    file {[
+        $storage_dir,
+        $graphite::whisper_data_dir,
+    ]:
+        ensure  => directory,
     }
 
     file {"${conf_dir}/carbon.conf":
