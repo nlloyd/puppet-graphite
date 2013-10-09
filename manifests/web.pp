@@ -11,7 +11,9 @@ class graphite::web (
     $local_settings = '/etc/graphite-web/local_settings.py',
     $manage_script  = '/usr/lib/python2.6/site-packages/graphite/manage.py',
     $socket_path    = '/var/run/httpd',
-    $lib_dir        = '/var/lib/graphite-web'
+    $lib_dir        = '/var/lib/graphite-web',
+    
+    $enable_cors = false,
 ) {
     require graphite
     require apache::params
@@ -93,5 +95,9 @@ class graphite::web (
         require            => [
             Package[$package],
         ],
+    }
+    
+    if $enable_cors {
+        apache::mod{'headers': }
     }
 }

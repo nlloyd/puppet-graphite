@@ -33,6 +33,13 @@ WSGISocketPrefix <%= scope.lookupvar("graphite::socket_path") %>/wsgi
     <Location "/media/">
         SetHandler None
     </Location>
+    
+    <%#= https://github.com/obfuscurity/tasseo#graphite-server-configuration %>
+    <% if @enable_cors %>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, OPTIONS"
+    Header set Access-Control-Allow-Headers "origin, authorization, accept"
+    <% end %>
 
     # The graphite.wsgi file has to be accessible by apache. It won't
     # be visible to clients because of the DocumentRoot though.
