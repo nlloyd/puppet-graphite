@@ -10,10 +10,10 @@ class graphite::carbon(
     $log_dir             = '/var/log/carbon/',
     $provide_init_script = false,
 ) {
+    require graphite
+
     ## local variable definition REQUIRED for carbon.conf.erb
     $whisper_data_dir = $graphite::whisper_data_dir
-    
-    require graphite
 
     package {$package : }
     
