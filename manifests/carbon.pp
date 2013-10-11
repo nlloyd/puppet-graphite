@@ -10,6 +10,9 @@ class graphite::carbon(
     $log_dir             = '/var/log/carbon/',
     $provide_init_script = false,
 ) {
+    ## local variable definition REQUIRED for carbon.conf.erb
+    $whisper_data_dir = $graphite::whisper_data_dir
+    
     require graphite
 
     package {$package : }
@@ -48,7 +51,7 @@ class graphite::carbon(
     ## performance (and possibly Puppet altogether)
     file {[
         $storage_dir,
-        $graphite::whisper_data_dir,
+        $whisper_data_dir,
     ]:
         ensure  => directory,
     }
