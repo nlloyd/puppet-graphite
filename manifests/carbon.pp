@@ -9,12 +9,16 @@ class graphite::carbon(
     $storage_dir         = '/var/lib/carbon/',
     $log_dir             = '/var/log/carbon/',
     $provide_init_script = false,
+    
+    $schemas     = 'puppet:///modules/graphite/storage-schemas.conf',
+    $aggregation = undef,
 ) {
     require graphite
 
-    ## local variable definition REQUIRED for carbon.conf.erb
+    ## local variable definition required for carbon.conf.erb
+    ## NO TOUCHY!!!
     $whisper_data_dir = $graphite::whisper_data_dir
-
+    
     package {$package : }
     
     File {
@@ -63,9 +67,23 @@ class graphite::carbon(
     }
 
     file {"${conf_dir}/storage-schemas.conf":
-        source  => 'puppet:///modules/graphite/storage-schemas.conf',
+        source  => $schemas,
         require => Package[$package],
         notify  => Service['carbon-cache'],
+    }
+    
+    if $aggregation == undef {
+        file {"${conf_dir}/storage-aggregation.conf":
+            ensure  => absent,
+            require => Package[$package],
+            notify  => Service['carbon-cache'],
+        }
+    } else {
+        file {"${conf_dir}/storage-aggregation.conf":
+            source  => $aggregation,
+            require => Package[$package],
+            notify  => Service['carbon-cache'],
+        }
     }
     
     service {'carbon-cache':
