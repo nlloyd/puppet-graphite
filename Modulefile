@@ -8,4 +8,4 @@ description 'Module for Graphite configuration'
 source 'https://github.com/blalor/puppet-graphite.git'
 project_page 'https://github.com/blalor/puppet-graphite'
 
-dependency 'puppetlabs/apache', '0.6.0'
+dependency 'puppetlabs/apache', '0.x'
