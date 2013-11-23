@@ -89,7 +89,6 @@ class graphite::web (
         port               => $vhost_port,
         servername         => "${vhost_host}:${vhost_port}",
         docroot            => $docroot,
-        configure_firewall => false,
         template           => 'graphite/graphite-web.conf.erb',
         logroot            => $logroot,
         require            => [
